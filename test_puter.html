@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Puter.js Test</title>
+    <script src="https://js.puter.com/v2/"></script>
+    <style>
+        body { font-family: sans-serif; padding: 2em; }
+        #output { padding: 1em; background: #f0f0f0; border-radius: 4px; margin-top: 1em; white-space: pre-wrap; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>Puter.js Integrity Test</h1>
+    <p>Testing model: <code>gemini-2.0-flash-lite-001</code></p>
+    
+    <button onclick="runTest()">Run Test: Explain Black Holes</button>
+
+    <div id="status" style="margin-top: 10px; color: #666;">Ready...</div>
+    <div id="output"></div>
+
+    <script>
+        async function runTest() {
+            const statusDiv = document.getElementById('status');
+            const outputDiv = document.getElementById('output');
+            
+            statusDiv.innerText = "Running... (Check Browser Console for Errors)";
+            outputDiv.innerText = "";
+
+            try {
+                // Simple chat request
+                const response = await puter.ai.chat("Explain the concept of black holes in one sentence.", {
+                    model: 'gemini-2.0-flash-lite-001'
+                });
+
+                statusDiv.innerText = "Success! ✅";
+                statusDiv.style.color = "green";
+                outputDiv.innerText = typeof response === 'string' ? response : JSON.stringify(response, null, 2);
+                
+                // Print to console for verification
+                console.log("Puter Response:", response);
+
+            } catch (error) {
+                statusDiv.innerText = "Failed ❌";
+                statusDiv.style.color = "red";
+                outputDiv.innerText = "Error: " + error.message;
+                console.error("Puter Error:", error);
+            }
+        }
+    </script>
+</body>
+</html>
